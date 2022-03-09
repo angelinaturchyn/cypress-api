@@ -32,7 +32,7 @@ describe('Test with backend', () => {
             .and('contain','SpeedyGonzales')
     })
 
-    it.only('verify global feed likes count', () => {
+    it('verify global feed likes count', () => {
 
         cy.intercept('GET', '**/articles/feed', {"articles":[],"articlesCount":0})
         cy.intercept('GET', '**/articles', {fixtures:'articles.json'})
@@ -72,5 +72,28 @@ describe('Test with backend', () => {
             expect(xhr.response.body.article.description).to.eq('NOTHIIIIIINGGGGGGSS')
         })
     })
+
+
+    it.only('intercepting and modifying req', () => {
+
+        cy.intercept('POST', '**/articles',(req)=> {
+            req.body.article.description = "This is a description"
+        }).as('postArticles')
+
+        cy.contains(' New Article ').click()
+        cy.get('[placeholder="Article Title"]').type('Articless Title')
+        cy.get('[placeholder="What\'s this article about?"]').type('NOTHIIIIIINGGGGGGSS')
+        cy.get('[placeholder="Write your article (in markdown)"]').type('wowowowwww!!!!!!!!!!!!!!!!!!')
+        cy.contains(' Publish Article ').click()
+
+        cy.wait('@postArticles')
+        cy.get('@postArticles').then(xhr => {
+            console.log(xhr)
+            expect(xhr.status).to.equal(200)
+            expect(xhr.request.body.articles.body).to.eq('wowowowwww!!!!!!!!!!!!!!!!!!')
+            expect(xhr.response.body.articles.description).to.eq('This is a description')
+        })
+    })
+
 
 })
