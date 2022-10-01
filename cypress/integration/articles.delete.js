@@ -39,6 +39,7 @@ describe('Api calls', function () {
             cy.contains('Global Feed').click()
             cy.get('[class="article-preview"]').eq(0).click()
             cy.get('.article-actions').contains('Delete Article').click()
+
         })
     })
 });
