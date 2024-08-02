@@ -55,9 +55,9 @@ describe('Example feature', () => {
 
 To execute the tests, use the following command:
 
-``` npx cypress open ```
+``` npx cypress open```
 
 To run the tests in headless mode, use:
 
-``` npx cypress run ``
+``` npx cypress run ```
 
