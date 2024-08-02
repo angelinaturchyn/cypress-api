@@ -59,5 +59,5 @@ To execute the tests, use the following command:
 
 To run the tests in headless mode, use:
 
-```npx cypress run``
+``` npx cypress run ``
 
